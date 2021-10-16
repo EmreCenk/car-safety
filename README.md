@@ -5,6 +5,7 @@ A project that detects when a driver is sleeping at the wheel and attempts to wa
 
 ### Requirements
 - A webcam connected to your computer
+- Python 3.9 or greater
 - If you are on Linux: ffmpeg
 
 ### Steps
