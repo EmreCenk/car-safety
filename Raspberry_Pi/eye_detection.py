@@ -113,10 +113,11 @@ def start_detection(
 
 
 if __name__ == "__main__":
-    from on_sleep import onSleep
+    from on_sleep import on_sleep
 
     def person_is_sleeping():
-        onSleep(wait_time_between_sounds=0.5, decibel_level=10, repetitions=1)
+        on_sleep(wait_time_between_sounds=0.5, decibel_level=10, repetitions=1)
 
-    # if person sleeps for more than 5 seconds, the alarm will go off. The process is repeatable
+    # if person sleeps for more than 5 seconds, the alarm will go off. The process is repeatable (as long as the eyes are
+    # closed for more than 2 seconds, this function keeps executing repeatedly)
     start_detection({2: (person_is_sleeping, True)}, True, True)
