@@ -78,26 +78,28 @@ def start_detection(
 
         how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
 
-        if print_logs:
-            to_pop = []  # list of entries to pop
-            for t in threshold_to_function:
-                if how_long_eyes_have_been_closed > t:
-                    # the eyes have been closed for more than t seconds, let's execute the neccesary function:
+        to_pop = []  # list of entries to pop
+        for t in threshold_to_function:
+            if how_long_eyes_have_been_closed > t:
+                # the eyes have been closed for more than t seconds, let's execute the neccesary function:
+                if print_logs:
                     print(
                         "eyes have been closed for",
                         how_long_eyes_have_been_closed,
                         "executing",
                         threshold_to_function[t][0],
                     )
-                    threshold_to_function[t][0]()
+                threshold_to_function[t][0]()
 
-                    if not threshold_to_function[t][1]:
-                        to_pop.append(t)
+                if not threshold_to_function[t][1]:
+                    to_pop.append(t)
 
-            for t in to_pop:
-                del threshold_to_function[
-                    t
-                ]  # deleting this entry from the dictionary so it's not repeated
+        for t in to_pop:
+            del threshold_to_function[
+                t
+            ]  # deleting this entry from the dictionary so it's not repeated
+
+        if print_logs:
             print(message)
 
         if show_window_video:
@@ -128,4 +130,4 @@ if __name__ == "__main__":
     # so even if you close your eyes for 1000 seconds, "911" will be contacted only once
     function_maps = {1: (person_is_sleeping, True), 10: (oh_no_youre_dying, False)}
 
-    start_detection(function_maps, True, True)
+    start_detection(function_maps, False, True)
