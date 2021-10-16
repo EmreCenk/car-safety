@@ -1,6 +1,7 @@
 import os
 import time
 import sys
+
 filePath = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -17,6 +18,7 @@ def playFile(fileName: str, volume: float = 1) -> None:
     else:
         # works in windows
         os.startfile(f"{filePath}/media/{fileName}.mp3")
+
 
 def onSleep() -> None:
     for _ in range(10):
