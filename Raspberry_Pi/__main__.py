@@ -18,4 +18,4 @@ def main():
     else:
         function_maps = {2: (person_is_sleeping, True), 5: (oh_no_youre_dying, False)}
 
-    start_detection(function_maps, False, False)
+    start_detection(function_maps, True, True)

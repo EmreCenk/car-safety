@@ -1,7 +1,7 @@
 import cv2
 from time import perf_counter
 from typing import Dict, Callable, Tuple, Any
-
+import os
 
 def get_cascades() -> Tuple[Any, Any]:
     """
@@ -9,12 +9,21 @@ def get_cascades() -> Tuple[Any, Any]:
     :return: face_cascade, eye_cascade
     """
     # Initializing the face and eye cascade classifiers from xml files
-    filename1 = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-    face_cascade = cv2.CascadeClassifier(filename1)
 
-    filename2 = cv2.data.haarcascades + "haarcascade_eye_tree_eyeglasses.xml"
-    eye_cascade = cv2.CascadeClassifier(filename2)
+    try:
+        file_path = os.path.dirname(os.path.realpath(__file__))
+        filename1 = f"{file_path}/media/haarcascade_frontalface_default.xml"
+        filename2 = f"{file_path}/media/haarcascade_eye_tree_eyeglasses.xml"
+        face_cascade = cv2.CascadeClassifier(filename1)
+        eye_cascade = cv2.CascadeClassifier(filename2)
+        # print(filename1, filename2)
 
+    except:
+        filename1 = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+        face_cascade = cv2.CascadeClassifier(filename1)
+
+        filename2 = cv2.data.haarcascades + "haarcascade_eye_tree_eyeglasses.xml"
+        eye_cascade = cv2.CascadeClassifier(filename2)
     return face_cascade, eye_cascade
 
 
