@@ -5,4 +5,4 @@ opencv
 
 
 # misc:
-you might need to install opencv-python along with opencv bc some of the code is at that repo apparently
+you might need to install opencv-contrib-python along with opencv bc some of the code is at that repo apparently
