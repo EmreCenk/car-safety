@@ -3,3 +3,5 @@
 __dirname=$(dirname "$0")
 
 black "${__dirname}/../."
+
+git add .
