@@ -128,7 +128,6 @@ if __name__ == "__main__":
 
     # if the person closes their eyes for more than 5 seconds, "911" will be contacted. This is done only once, it does not repeat.
     # so even if you close your eyes for 1000 seconds, "911" will be contacted only once
-    function_maps = {2: (person_is_sleeping, True),
-                     5: (oh_no_youre_dying, False)}
+    function_maps = {2: (person_is_sleeping, True), 5: (oh_no_youre_dying, False)}
 
     start_detection(function_maps, True, True)
