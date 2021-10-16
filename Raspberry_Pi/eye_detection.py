@@ -1,8 +1,6 @@
-
-
-
 import cv2
 from time import perf_counter
+
 
 def get_cascades():
     """
@@ -52,18 +50,16 @@ def start_detection(print_logs: bool = True, show_window_video: bool = True):
             if len(eyes) >= 2:
                 message = "eye detected"
                 color = (0, 255, 0)  # green
-                eyes_last_seen_open_timestamp = perf_counter() #updating timestamp
+                eyes_last_seen_open_timestamp = perf_counter()  # updating timestamp
 
             else:
                 message = "No eyes detected"
                 color = (255, 0, 0)  # blue
 
-
         how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
         if how_long_eyes_have_been_closed > 2 and print_logs:
-            #the eyes have been closed for more than two seconds
+            # the eyes have been closed for more than two seconds
             print("eyes have been closed for", how_long_eyes_have_been_closed)
-
 
         if show_window_video:
             cv2.putText(img, message, (70, 70), cv2.QT_FONT_BLACK, 3, color, 2)
@@ -76,5 +72,6 @@ def start_detection(print_logs: bool = True, show_window_video: bool = True):
     cap.release()
     cv2.destroyAllWindows()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     start_detection(True, False)
