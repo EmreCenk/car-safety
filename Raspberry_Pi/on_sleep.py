@@ -22,13 +22,12 @@ def playFile(fileName: str, volume: float = 0) -> None:
     play(audio)
 
 
-def onSleep() -> None:
+def onSleep(sleep_time: float = 0.5, decibel_level: int = 10) -> None:
     for _ in range(10):
-        playFile("alarm", 10)
-        playFile("wake_up", 10)
-        playFile("wake_up", 10)
-
-        time.sleep(0.5)
+        playFile("alarm", decibel_level)
+        playFile("wake_up", decibel_level)
+        playFile("wake_up", decibel_level)
+        time.sleep(sleep_time)
 
 
 if __name__ == "__main__":
