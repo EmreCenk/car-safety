@@ -10,7 +10,7 @@ def playFile(fileName: str, volume: float = 1) -> None:
     :param volume: volume of sound, with 1 being 100%
     :return: void
     """
-    os.system(f"mpg123 -f -{32768 * volume} {filePath}/media/{fileName}.mp3")
+    os.system(f"mpg123 -q --scale {32768 * volume} {filePath}/media/{fileName}.mp3")
 
 
 def onSleep() -> None:
