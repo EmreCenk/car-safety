@@ -3,6 +3,7 @@ from time import perf_counter
 from typing import Dict, Callable, Tuple, Any
 import os
 
+
 def get_cascades() -> Tuple[Any, Any]:
     """
     Dynamically finds the cascades, and returns 2 cascade objects (face, eye)
