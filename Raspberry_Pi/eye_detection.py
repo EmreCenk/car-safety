@@ -19,7 +19,7 @@ def get_cascades():
     return face_cascade, eye_cascade
 
 
-def start_detection():
+def start_detection(print_logs: bool = True, show_window_video: bool = True):
     face_cascade, eye_cascade = get_cascades()
 
     # Starting the video capture
@@ -60,11 +60,15 @@ def start_detection():
 
 
         how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
-        if how_long_eyes_have_been_closed > 2:
+        if how_long_eyes_have_been_closed > 2 and print_logs:
             #the eyes have been closed for more than two seconds
             print("eyes have been closed for", how_long_eyes_have_been_closed)
-        cv2.putText(img, message, (70, 70), cv2.QT_FONT_BLACK, 3, color, 2)
-        cv2.imshow("img", img)
+
+
+        if show_window_video:
+            cv2.putText(img, message, (70, 70), cv2.QT_FONT_BLACK, 3, color, 2)
+            cv2.imshow("img", img)
+
         a = cv2.waitKey(1)
         if a == ord("q"):
             break
@@ -73,4 +77,4 @@ def start_detection():
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    start_detection()
+    start_detection(True, False)
