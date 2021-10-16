@@ -1,4 +1,5 @@
 import os
+import time
 
 filePath = os.path.dirname(os.path.realpath(__file__))
 
@@ -13,7 +14,10 @@ def playFile(fileName: str, volume: float = 1) -> None:
 
 
 def onSleep() -> None:
-    playFile("wake_up", 1)
+    for i in range(10):
+        playFile("wake_up", i)
+
+        time.sleep(0.5)
 
 
 if __name__ == "__main__":
