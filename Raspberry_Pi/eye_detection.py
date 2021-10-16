@@ -18,6 +18,11 @@ def get_cascades():
 
 
 def start_detection(print_logs: bool = True, show_window_video: bool = True):
+    """
+    :param print_logs: the function outputs for debugging
+    :param show_window_video: shows you what the ai is seeing in real time (again, mostly for debugging)
+    :return:
+    """
     face_cascade, eye_cascade = get_cascades()
 
     # Starting the video capture
@@ -57,9 +62,13 @@ def start_detection(print_logs: bool = True, show_window_video: bool = True):
                 color = (255, 0, 0)  # blue
 
         how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
-        if how_long_eyes_have_been_closed > 2 and print_logs:
-            # the eyes have been closed for more than two seconds
-            print("eyes have been closed for", how_long_eyes_have_been_closed)
+
+        if print_logs:
+            if how_long_eyes_have_been_closed > 2:
+                # the eyes have been closed for more than two seconds
+                print("eyes have been closed for", how_long_eyes_have_been_closed)
+                yield how_long_eyes_have_been_closed
+            print(message)
 
         if show_window_video:
             cv2.putText(img, message, (70, 70), cv2.QT_FONT_BLACK, 3, color, 2)
