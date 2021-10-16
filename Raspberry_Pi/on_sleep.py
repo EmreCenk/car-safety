@@ -14,21 +14,32 @@ def playFile(fileName: str, volume: float = 0) -> None:
     :param volume: increase in volume in dB
     :return: void
     """
-    audio = files.setdefault(
-        fileName, AudioSegment.from_mp3(f"{filePath}/media/{fileName}.mp3")
-    )
-    audio += volume
+    try:
+        audio = files.setdefault(
+            fileName, AudioSegment.from_mp3(f"{filePath}/media/{fileName}.mp3")
+        )
+        audio += volume
 
-    play(audio)
+        play(audio)
+    except Exception as E:
+        #This case here is written to test the system on windows.
+        #
+        # print("Linux version didn't work. ig this isn't linux. Here's the error:", E)
+        # print("Trying test version for windows")
+        os.startfile(f"{filePath}/media/{fileName}.mp3")
 
 
-def onSleep(sleep_time: float = 0.5, decibel_level: int = 10) -> None:
-    for _ in range(10):
+def onSleep(wait_time_between_sounds: float = 0.5,
+            decibel_level: int = 10,
+            repetitions: int = 10) -> None:
+    for _ in range(repetitions):
         playFile("alarm", decibel_level)
         playFile("wake_up", decibel_level)
         playFile("wake_up", decibel_level)
-        time.sleep(sleep_time)
+        time.sleep(wait_time_between_sounds)
 
 
 if __name__ == "__main__":
-    onSleep()
+    onSleep(wait_time_between_sounds=0.5,
+            decibel_level=10,
+            repetitions=10)
