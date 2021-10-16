@@ -15,25 +15,36 @@ def play_file(file_name: str, volume: float = 0) -> None:
     :return: void
     """
 
-    # Note(Callum): I changed this because I don't believe that this function
-    # should handle the path stuff
-    audio = files.setdefault(
-        file_name,
-        AudioSegment.from_mp3(file_name),
-    )
-    audio += volume
+    try:
+        # Note(Callum): I changed this because I don't believe that this function
+        # should handle the path stuff
+        audio = files.setdefault(
+            file_name,
+            AudioSegment.from_mp3(file_name),
+        )
+        audio += volume
 
-    play(audio)
+        play(audio)
+    except Exception as E:
+        # This case here is written to test the system on windows.
+        #
+        # print("Linux version didn't work. ig this isn't linux. Here's the error:", E)
+        # print("Trying test version for windows")
+        os.startfile(file_name)
 
 
-def on_sleep() -> None:
-    for _ in range(10):
-        play_file(f"{file_path}/media/alarm.mp3", 10)
-        play_file(f"{file_path}/media/wake_up.mp3", 10)
-        play_file(f"{file_path}/media/wake_up.mp3", 10)
+def on_sleep(
+    wait_time_between_sounds: float = 0.5,
+    decibel_level: int = 10,
+    repetitions: int = 10,
+) -> None:
+    for _ in range(repetitions):
+        play_file(f"{file_path}/media/alarm.mp3", decibel_level)
+        play_file(f"{file_path}/media/wake_up.mp3", decibel_level)
+        play_file(f"{file_path}/media/wake_up.mp3", decibel_level)
 
-        time.sleep(0.5)
+        time.sleep(wait_time_between_sounds)
 
 
 if __name__ == "__main__":
-    on_sleep()
+    on_sleep(wait_time_between_sounds=0.5, decibel_level=10, repetitions=10)

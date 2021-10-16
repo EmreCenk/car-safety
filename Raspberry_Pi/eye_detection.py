@@ -3,10 +3,10 @@
 
 import cv2
 from time import perf_counter
-from typing import Dict, Callable, Tuple
+from typing import Dict, Callable, Tuple, Any
 
 
-def get_cascades():
+def get_cascades() -> Tuple[Any, Any]:
     """
     Dynamically finds the cascades, and returns 2 cascade objects (face, eye)
     :return: face_cascade, eye_cascade
@@ -23,7 +23,7 @@ def get_cascades():
 
 def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], # Callable just means function
                     print_logs: bool = True,
-                    show_window_video: bool = True):
+                    show_window_video: bool = True) -> None:
     """
     Look at some examples to better understand how this works
     :param threshold_to_function: A dictionary that maps float values to functions. For example, if you want the program to execute
@@ -31,7 +31,7 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
      then the threshold_to_function argument would be {2: (print, True)}
     :param print_logs: the function outputs for debugging
     :param show_window_video: shows you what the ai is seeing in real time (again, mostly for debugging)
-    :return:
+    :return: None
     """
     face_cascade, eye_cascade = get_cascades()
 
@@ -68,9 +68,10 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
                 eyes_last_seen_open_timestamp = perf_counter() #updating timestamp
 
             else:
-                message = "No eyes detected"
+                message = f"closed for {round(perf_counter() - eyes_last_seen_open_timestamp, 2)}"
                 color = (255, 0, 0)  # blue
-
+        if len(faces) == 0:
+            eyes_last_seen_open_timestamp = perf_counter()  # updating timestamp bc there's no face
 
         how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
 
@@ -102,8 +103,13 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    def alpha():
-        print("it's been 1 sec")
-    start_detection({1: (alpha, True)},
+    from on_sleep import onSleep
+    def person_is_sleeping():
+        onSleep(wait_time_between_sounds = 0.5,
+                decibel_level = 10,
+                repetitions = 1)
+
+    #if person sleeps for more than 5 seconds, the alarm will go off. The process is repeatable
+    start_detection({2: (person_is_sleeping, True)},
                     True,
                     True)
