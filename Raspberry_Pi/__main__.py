@@ -6,7 +6,7 @@ import os
 
 def main():
     def person_is_sleeping():
-        events.on_sleep(wait_time_between_sounds=0.5, decibel_level=10, repetitions=1)
+        events.on_sleep(wait_time_between_sounds=0.5, decibel_increase=10, repetition=1)
 
     def oh_no_youre_dying():
         events.on_crash()
