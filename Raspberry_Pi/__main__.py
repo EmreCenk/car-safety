@@ -6,11 +6,16 @@ import os
 
 def main():
     def person_is_sleeping():
-        events.on_sleep(wait_time_between_sounds=0.5, decibel_level=10, repetitions=1)
+        events.on_sleep(wait_time_between_sounds=0.5, decibel_increase=10, repetition=1)
 
     def oh_no_youre_dying():
         events.on_crash()
 
     args = parse_arguments()
-    function_maps = {2: (person_is_sleeping, True), 5: (oh_no_youre_dying, False)}
-    start_detection(function_maps, True, True)
+
+    if args.no_twilio:
+        function_maps = {2: (person_is_sleeping, True)}
+    else:
+        function_maps = {2: (person_is_sleeping, True), 5: (oh_no_youre_dying, False)}
+
+    start_detection(function_maps, False, False)

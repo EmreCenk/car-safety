@@ -30,7 +30,9 @@ def play_file(file_name: str, volume: float = 0) -> None:
         #
         # print("Linux version didn't work. ig this isn't linux. Here's the error:", E)
         # print("Trying test version for windows")
+        # file_name = file_name.replace("\\", "/").replace("/events","")
         os.startfile(file_name)
+        print("started file")
 
 
 def on_sleep(
