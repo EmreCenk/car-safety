@@ -68,7 +68,7 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
                 eyes_last_seen_open_timestamp = perf_counter() #updating timestamp
 
             else:
-                message = "No eyes detected"
+                message = f"closed for {round(perf_counter() - eyes_last_seen_open_timestamp, 2)}"
                 color = (255, 0, 0)  # blue
 
 
@@ -102,8 +102,13 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    def alpha():
-        print("it's been 1 sec")
-    start_detection({1: (alpha, True)},
+    from on_sleep import onSleep
+    def person_is_sleeping():
+        onSleep(wait_time_between_sounds = 0.5,
+                decibel_level = 10,
+                repetitions = 1)
+
+    #if person sleeps for more than 5 seconds, the alarm will go off. The process is repeatable
+    start_detection({2: (person_is_sleeping, True)},
                     True,
                     True)
