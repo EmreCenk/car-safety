@@ -3,6 +3,8 @@
 
 import cv2
 from time import perf_counter
+from typing import Dict, Callable, Tuple
+
 
 def get_cascades():
     """
@@ -19,8 +21,14 @@ def get_cascades():
     return face_cascade, eye_cascade
 
 
-def start_detection(print_logs: bool = True, show_window_video: bool = True):
+def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], # Callable just means function
+                    print_logs: bool = True,
+                    show_window_video: bool = True):
     """
+    Look at some examples to better understand how this works
+    :param threshold_to_function: A dictionary that maps float values to functions. For example, if you want the program to execute
+    the print function when the eyes are closed for more than two seconds, and you want this to be repeatable,
+     then the threshold_to_function argument would be {2: (print, True)}
     :param print_logs: the function outputs for debugging
     :param show_window_video: shows you what the ai is seeing in real time (again, mostly for debugging)
     :return:
@@ -67,10 +75,18 @@ def start_detection(print_logs: bool = True, show_window_video: bool = True):
         how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
 
         if print_logs:
-            if how_long_eyes_have_been_closed > 2:
-                #the eyes have been closed for more than two seconds
-                print("eyes have been closed for", how_long_eyes_have_been_closed)
-                yield how_long_eyes_have_been_closed
+            to_pop = [] #list of entries to pop
+            for t in threshold_to_function:
+                if how_long_eyes_have_been_closed > t:
+                    #the eyes have been closed for more than t seconds, let's execute the neccesary function:
+                    print("eyes have been closed for", how_long_eyes_have_been_closed, "executing", threshold_to_function[t][0])
+                    threshold_to_function[t][0]()
+
+                    if not threshold_to_function[t][1]:
+                        to_pop.append(t)
+
+            for t in to_pop:
+                del(threshold_to_function[t])  # deleting this entry from the dictionary so it's not repeated
             print(message)
 
 
@@ -86,4 +102,8 @@ def start_detection(print_logs: bool = True, show_window_video: bool = True):
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    start_detection(True, False)
+    def alpha():
+        print("it's been 1 sec")
+    start_detection({1: (alpha, True)},
+                    True,
+                    True)
