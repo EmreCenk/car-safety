@@ -41,14 +41,14 @@ def on_sleep(
     repetition: int = 1,
 ) -> None:
     for _ in range(repetition):
-        play_file(f"{file_path}/media/alarm.mp3", decibel_increase)
-        play_file(f"{file_path}/media/wake_up.mp3", decibel_increase)
-        play_file(f"{file_path}/media/wake_up.mp3", decibel_increase)
+        play_file(f"{file_path}/../media/alarm.mp3", decibel_increase)
+        play_file(f"{file_path}/../media/wake_up.mp3", decibel_increase)
+        play_file(f"{file_path}/../media/wake_up.mp3", decibel_increase)
 
         time.sleep(wait_time_between_sounds)
 
     for _ in range(repetition):
-        play_file(f"{file_path}/media/pull_over.mp3", decibel_increase)
+        play_file(f"{file_path}/../media/pull_over.mp3", decibel_increase)
 
         time.sleep(wait_time_between_sounds)
 
