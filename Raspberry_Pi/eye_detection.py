@@ -1,6 +1,3 @@
-
-
-
 import cv2
 from time import perf_counter
 from typing import Dict, Callable, Tuple, Any
@@ -21,9 +18,13 @@ def get_cascades() -> Tuple[Any, Any]:
     return face_cascade, eye_cascade
 
 
-def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], # Callable just means function
-                    print_logs: bool = True,
-                    show_window_video: bool = True) -> None:
+def start_detection(
+    threshold_to_function: Dict[
+        float, Tuple[Callable, bool]
+    ],  # Callable just means function
+    print_logs: bool = True,
+    show_window_video: bool = True,
+) -> None:
     """
     Look at some examples to better understand how this works
     :param threshold_to_function: A dictionary that maps float values to functions. For example, if you want the program to execute
@@ -65,31 +66,39 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
             if len(eyes) >= 2:
                 message = "eye detected"
                 color = (0, 255, 0)  # green
-                eyes_last_seen_open_timestamp = perf_counter() #updating timestamp
+                eyes_last_seen_open_timestamp = perf_counter()  # updating timestamp
 
             else:
                 message = f"closed for {round(perf_counter() - eyes_last_seen_open_timestamp, 2)}"
                 color = (255, 0, 0)  # blue
         if len(faces) == 0:
-            eyes_last_seen_open_timestamp = perf_counter()  # updating timestamp bc there's no face
+            eyes_last_seen_open_timestamp = (
+                perf_counter()
+            )  # updating timestamp bc there's no face
 
         how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
 
         if print_logs:
-            to_pop = [] #list of entries to pop
+            to_pop = []  # list of entries to pop
             for t in threshold_to_function:
                 if how_long_eyes_have_been_closed > t:
-                    #the eyes have been closed for more than t seconds, let's execute the neccesary function:
-                    print("eyes have been closed for", how_long_eyes_have_been_closed, "executing", threshold_to_function[t][0])
+                    # the eyes have been closed for more than t seconds, let's execute the neccesary function:
+                    print(
+                        "eyes have been closed for",
+                        how_long_eyes_have_been_closed,
+                        "executing",
+                        threshold_to_function[t][0],
+                    )
                     threshold_to_function[t][0]()
 
                     if not threshold_to_function[t][1]:
                         to_pop.append(t)
 
             for t in to_pop:
-                del(threshold_to_function[t])  # deleting this entry from the dictionary so it's not repeated
+                del threshold_to_function[
+                    t
+                ]  # deleting this entry from the dictionary so it's not repeated
             print(message)
-
 
         if show_window_video:
             cv2.putText(img, message, (70, 70), cv2.QT_FONT_BLACK, 3, color, 2)
@@ -102,14 +111,12 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
     cap.release()
     cv2.destroyAllWindows()
 
-if __name__ == '__main__':
-    from on_sleep import onSleep
-    def person_is_sleeping():
-        onSleep(wait_time_between_sounds = 0.5,
-                decibel_level = 10,
-                repetitions = 1)
 
-    #if person sleeps for more than 5 seconds, the alarm will go off. The process is repeatable
-    start_detection({2: (person_is_sleeping, True)},
-                    True,
-                    True)
+if __name__ == "__main__":
+    from on_sleep import onSleep
+
+    def person_is_sleeping():
+        onSleep(wait_time_between_sounds=0.5, decibel_level=10, repetitions=1)
+
+    # if person sleeps for more than 5 seconds, the alarm will go off. The process is repeatable
+    start_detection({2: (person_is_sleeping, True)}, True, True)
