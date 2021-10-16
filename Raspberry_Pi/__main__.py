@@ -1,5 +1,5 @@
 from Raspberry_Pi.cli import parse_arguments
-from Raspberry_Pi.events import on_sleep
+from Raspberry_Pi import events
 import os
 
 
@@ -9,6 +9,6 @@ def main():
     if args.sound:
         print(args.sound)
         if os.path.isfile(args.sound):
-            on_sleep()
+            events.on_sleep()
         else:
             print("Bad path")
