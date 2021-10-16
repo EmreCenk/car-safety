@@ -12,5 +12,10 @@ def main():
         events.on_crash()
 
     args = parse_arguments()
-    function_maps = {2: (person_is_sleeping, True), 5: (oh_no_youre_dying, False)}
+
+    if args.no_twilio:
+        function_maps = {2: (person_is_sleeping, True)}
+    else:
+        function_maps = {2: (person_is_sleeping, True), 5: (oh_no_youre_dying, False)}
+
     start_detection(function_maps, False, False)

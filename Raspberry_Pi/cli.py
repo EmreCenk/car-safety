@@ -9,8 +9,11 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--sound",
         type=pathlib.Path,
-        help="sound to play when sleeping is detected",
+        help="sound to play when sleeping is detected (UNIMPLEMENTED)",
         metavar="FILE",
+    )
+    parser.add_argument(
+        "--no-twilio", action="store_true", help="disable Twilio integration"
     )
     args = parser.parse_args()
     return args
