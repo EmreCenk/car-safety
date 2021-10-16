@@ -18,5 +18,9 @@ class sms:
         print("sent successfully")
 
 
+def on_crash() -> None:
+    sms.send("+12265074010", "oh no, this person is dying!")
+
+
 if __name__ == "__main__":
     sms.send("+12265074010", "testing message")
