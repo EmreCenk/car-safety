@@ -70,7 +70,8 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
             else:
                 message = f"closed for {round(perf_counter() - eyes_last_seen_open_timestamp, 2)}"
                 color = (255, 0, 0)  # blue
-
+        if len(faces) == 0:
+            eyes_last_seen_open_timestamp = perf_counter()  # updating timestamp bc there's no face
 
         how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
 
