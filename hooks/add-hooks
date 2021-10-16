@@ -1,0 +1,5 @@
+#!/bin/sh
+
+__dirname=$(dirname "$0")
+
+git config core.hooksPath "$__dirname"

@@ -3,43 +3,48 @@ import time
 from pydub import AudioSegment
 from pydub.playback import play
 
-filePath = os.path.dirname(os.path.realpath(__file__))
+file_path = os.path.dirname(os.path.realpath(__file__))
 
 files: dict[str, AudioSegment] = {}
 
 
-def playFile(fileName: str, volume: float = 0) -> None:
+def play_file(file_name: str, volume: float = 0) -> None:
     """
     :param fileName: name of audio file in ./media
     :param volume: increase in volume in dB
     :return: void
     """
+
     try:
+        # Note(Callum): I changed this because I don't believe that this function
+        # should handle the path stuff
         audio = files.setdefault(
-            fileName, AudioSegment.from_mp3(f"{filePath}/media/{fileName}.mp3")
+            file_name,
+            AudioSegment.from_mp3(file_name),
         )
         audio += volume
 
         play(audio)
     except Exception as E:
-        #This case here is written to test the system on windows.
+        # This case here is written to test the system on windows.
         #
         # print("Linux version didn't work. ig this isn't linux. Here's the error:", E)
         # print("Trying test version for windows")
-        os.startfile(f"{filePath}/media/{fileName}.mp3")
+        os.startfile(file_name)
 
 
-def onSleep(wait_time_between_sounds: float = 0.5,
-            decibel_level: int = 10,
-            repetitions: int = 10) -> None:
+def on_sleep(
+    wait_time_between_sounds: float = 0.5,
+    decibel_level: int = 10,
+    repetitions: int = 10,
+) -> None:
     for _ in range(repetitions):
-        playFile("alarm", decibel_level)
-        playFile("wake_up", decibel_level)
-        playFile("wake_up", decibel_level)
+        play_file(f"{file_path}/media/alarm.mp3", decibel_level)
+        play_file(f"{file_path}/media/wake_up.mp3", decibel_level)
+        play_file(f"{file_path}/media/wake_up.mp3", decibel_level)
+
         time.sleep(wait_time_between_sounds)
 
 
 if __name__ == "__main__":
-    onSleep(wait_time_between_sounds=0.5,
-            decibel_level=10,
-            repetitions=10)
+    on_sleep(wait_time_between_sounds=0.5, decibel_level=10, repetitions=10)
