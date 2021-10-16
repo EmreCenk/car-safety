@@ -1,5 +1,5 @@
 from Raspberry_Pi.cli import parse_arguments
-from Raspberry_Pi.on_sleep import on_sleep
+from Raspberry_Pi.events import on_sleep
 import os
 
 
