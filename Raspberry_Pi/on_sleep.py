@@ -1,28 +1,31 @@
 import os
 import time
-import sys
+from pydub import AudioSegment
+from pydub.playback import play
 
 filePath = os.path.dirname(os.path.realpath(__file__))
 
+files: dict[str, AudioSegment] = {}
 
-def playFile(fileName: str, volume: float = 1) -> None:
+
+def playFile(fileName: str, volume: float = 0) -> None:
     """
     :param fileName: name of audio file in ./media
-    :param volume: volume of sound, with 1 being 100%
+    :param volume: increase in volume in dB
     :return: void
     """
-    if "linux" in sys.platform:
-        # works on linux
-        os.system(f"mpg123 -q --scale {32768 * volume} {filePath}/media/{fileName}.mp3")
+    audio = files.setdefault(
+        fileName, AudioSegment.from_mp3(f"{filePath}/media/{fileName}.mp3")
+    )
+    audio += volume
 
-    else:
-        # works in windows
-        os.startfile(f"{filePath}/media/{fileName}.mp3")
+    play(audio)
 
 
 def onSleep() -> None:
     for _ in range(10):
         playFile("alarm", 10)
+        playFile("wake_up", 10)
         playFile("wake_up", 10)
 
         time.sleep(0.5)
