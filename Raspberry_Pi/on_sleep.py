@@ -14,8 +14,9 @@ def playFile(fileName: str, volume: float = 1) -> None:
 
 
 def onSleep() -> None:
-    for i in range(10):
-        playFile("wake_up", i)
+    for _ in range(10):
+        playFile("alarm", 10)
+        playFile("wake_up", 10)
 
         time.sleep(0.5)
 
