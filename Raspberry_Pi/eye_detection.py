@@ -3,10 +3,10 @@
 
 import cv2
 from time import perf_counter
-from typing import Dict, Callable, Tuple
+from typing import Dict, Callable, Tuple, Any
 
 
-def get_cascades():
+def get_cascades() -> Tuple[Any, Any]:
     """
     Dynamically finds the cascades, and returns 2 cascade objects (face, eye)
     :return: face_cascade, eye_cascade
@@ -23,7 +23,7 @@ def get_cascades():
 
 def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], # Callable just means function
                     print_logs: bool = True,
-                    show_window_video: bool = True):
+                    show_window_video: bool = True) -> None:
     """
     Look at some examples to better understand how this works
     :param threshold_to_function: A dictionary that maps float values to functions. For example, if you want the program to execute
@@ -31,7 +31,7 @@ def start_detection(threshold_to_function: Dict[float, Tuple[Callable, bool]], #
      then the threshold_to_function argument would be {2: (print, True)}
     :param print_logs: the function outputs for debugging
     :param show_window_video: shows you what the ai is seeing in real time (again, mostly for debugging)
-    :return:
+    :return: None
     """
     face_cascade, eye_cascade = get_cascades()
 
