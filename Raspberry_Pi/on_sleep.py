@@ -1,6 +1,6 @@
 import os
 import time
-
+import sys
 filePath = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -10,8 +10,13 @@ def playFile(fileName: str, volume: float = 1) -> None:
     :param volume: volume of sound, with 1 being 100%
     :return: void
     """
-    os.system(f"mpg123 -q --scale {32768 * volume} {filePath}/media/{fileName}.mp3")
+    if "linux" in sys.platform:
+        # works on linux
+        os.system(f"mpg123 -q --scale {32768 * volume} {filePath}/media/{fileName}.mp3")
 
+    else:
+        # works in windows
+        os.startfile(f"{filePath}/media/{fileName}.mp3")
 
 def onSleep() -> None:
     for _ in range(10):
