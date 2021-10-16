@@ -1,5 +1,8 @@
-import cv2
 
+
+
+import cv2
+from time import perf_counter
 
 def get_cascades():
     """
@@ -23,13 +26,7 @@ def start_detection():
     cap = cv2.VideoCapture(0)
     ret, img = cap.read()
 
-    # we have to pre-define message and color so that my IDE will SHUT UP ABOUT IT. It's fine if you delete the next 2 lines of code, but my IDE loves to bug me about it so here we are
-    message = ""
-    color = (
-        0,
-        0,
-        0,
-    )  # color is BGR instead of RGB for some reason. Why? bc opencv sucks
+    eyes_last_seen_open_timestamp = perf_counter()
 
     while ret:
         ret, img = cap.read()
@@ -50,19 +47,23 @@ def start_detection():
             # classifying eyes and storing all eyes found in an array:
             img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
             face_roi = gray[y : y + h, x : x + w]
-            roi_face_clr = img[y : y + h, x : x + w]
             eyes = eye_cascade.detectMultiScale(face_roi, 1.3, 5, minSize=(50, 50))
 
             if len(eyes) >= 2:
                 message = "eye detected"
                 color = (0, 255, 0)  # green
+                eyes_last_seen_open_timestamp = perf_counter() #updating timestamp
 
             else:
                 message = "No eyes detected"
                 color = (255, 0, 0)  # blue
 
-        cv2.putText(img, message, (70, 70), cv2.QT_FONT_BLACK, 3, color, 2)
 
+        how_long_eyes_have_been_closed = perf_counter() - eyes_last_seen_open_timestamp
+        if how_long_eyes_have_been_closed > 2:
+            #the eyes have been closed for more than two seconds
+            print("eyes have been closed for", how_long_eyes_have_been_closed)
+        cv2.putText(img, message, (70, 70), cv2.QT_FONT_BLACK, 3, color, 2)
         cv2.imshow("img", img)
         a = cv2.waitKey(1)
         if a == ord("q"):
@@ -70,3 +71,6 @@ def start_detection():
 
     cap.release()
     cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    start_detection()
