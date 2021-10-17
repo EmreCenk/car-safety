@@ -1,4 +1,4 @@
-# Car Safety
+# Sleep Stop
 
 A project that detects when a driver is sleeping at the wheel and attempts to wake them up.
 
@@ -72,7 +72,7 @@ The thing we are most proud of is the potential of this hack to save lives.
 
 ## What we learned
 
-While working on Car Safety, we learned a lot about working as a team. We had to communicate well to make sure that we weren’t writing conflicting code.
+While working on Sleep Stop, we learned a lot about working as a team. We had to communicate well to make sure that we weren’t writing conflicting code.
 
 We also learned about how to structure large Python projects, using some of Python’s more advanced features.
 
@@ -80,7 +80,7 @@ Another thing that we had to learn to make this project was cross-platform compa
 
 We learned how to reliably detect facial features such as closed eyes in Python using OpenCV.
 
-## What's next for Car Safety
+## What's next for Sleep Stop
 
 Right now we have a prototype but in the future it would be beneficial to create a highly-integrated product.
 
