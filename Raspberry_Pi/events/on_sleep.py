@@ -36,7 +36,8 @@ def play_file(file_name: str, volume: float = 0) -> None:
 
 
 def on_sleep(
-    wait_time_between_sounds: float = 0.5,
+    wait_time_between_sounds1: float = 0.5,
+    wait_time_between_sounds2: float = 0.5,
     decibel_increase: int = 10,
     repetition: int = 1,
 ) -> None:
@@ -45,12 +46,12 @@ def on_sleep(
         play_file(f"{file_path}/../media/wake_up.mp3", decibel_increase)
         play_file(f"{file_path}/../media/wake_up.mp3", decibel_increase)
 
-        time.sleep(wait_time_between_sounds)
+        time.sleep(wait_time_between_sounds1)
 
     for _ in range(repetition):
         play_file(f"{file_path}/../media/pull_over.mp3", decibel_increase)
 
-        time.sleep(wait_time_between_sounds)
+        time.sleep(wait_time_between_sounds2)
 
 
 if __name__ == "__main__":
