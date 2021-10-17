@@ -1,4 +1,4 @@
-# Sleep Stop
+# SleepStop
 
 [Devpost](https://devpost.com/software/car-safety-for-now-placeholder?ref_content=my-projects-tab&ref_feature=my_projects)
 
