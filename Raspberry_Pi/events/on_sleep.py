@@ -2,10 +2,11 @@ import os
 import time
 from pydub import AudioSegment
 from pydub.playback import play
+from typing import Dict
 
 file_path = os.path.dirname(os.path.realpath(__file__))
 
-files: dict[str, AudioSegment] = {}
+files: Dict[str, AudioSegment] = {}
 
 
 def play_file(file_name: str, volume: float = 0) -> None:
