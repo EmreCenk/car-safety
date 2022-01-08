@@ -4,6 +4,12 @@
 
 A project that detects when a driver is sleeping at the wheel and attempts to wake them up.
 
+## Prizes
+
+Hack the Valley V
+- 3rd Place Overall
+- Best Hardware Hack 
+
 ## Getting Started
 
 ### Requirements
